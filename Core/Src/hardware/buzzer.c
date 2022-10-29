@@ -1,4 +1,6 @@
 #include <math.h>
+#include <string.h>
+#include <stdio.h>
 #include "hardware/buzzer.h"
 #include "tim.h"
 
@@ -9,7 +11,7 @@ char* octaveNames[9] = {"sub-contra octave", "contra octave", "great octave", "s
 double notes[7] = {16.352, 18.354, 20.602, 21.827, 24.5, 27.5, 30.868};
 char* noteNames[7] = {"A", "B", "C", "D", "E", "F", "G"};
 
-float duration = 1;
+int duration = 1000;
 
 double getNoteFrequency(uint8_t noteNumber) {
 	return rint(notes[noteNumber] * pow(2, octave));
@@ -34,7 +36,7 @@ char buf[128];
 char* playNote(uint8_t noteNumber) {
 	setPlay(noteNumber);
 	TIM6_START();
-	sprintf(buf, "note %s, %s, duration %d", noteNames[noteNumber], octaveNames[octave], duration);
+	sprintf(buf, "note %s, %s, duration %dms", noteNames[noteNumber], octaveNames[octave], duration);
 	return buf;
 }
 
@@ -64,6 +66,8 @@ char* playAll() {
 	setPlayAllFlag();
 	setPlay(0);
 	TIM6_START();
+	sprintf(buf, "notes A,B,C,D,E,F,G, %s, duration %dms", octaveNames[octave], duration);
+	return buf;
 }
 
 char* upOctave() {
@@ -83,19 +87,21 @@ char* downOctave() {
 }
 
 char* upDuration() {
-	if (duration < 5) {
+	if (duration < 5000) {
 		TIM6->CNT += 100;
-		duration += 0.1;
-		return "\n";
+		duration += 100;
+		sprintf(buf, "%dms\n", duration);
+		return buf;
 	}
 	return "Duration is maximum\n";
 }
 
 char* downDuration() {
-	if (duration > 0.1) {
+	if (duration > 100) {
 		TIM6->CNT -= 100;
-		duration -= 0.1;
-		return "\n";
+		duration -= 100;
+		sprintf(buf, "%dms\n", duration);
+		return buf;
 	}
 	return "Duration is minimum\n";
 }
