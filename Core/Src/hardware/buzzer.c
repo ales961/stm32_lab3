@@ -36,7 +36,7 @@ char buf[128];
 char* playNote(uint8_t noteNumber) {
 	setPlay(noteNumber);
 	TIM6_START();
-	sprintf(buf, "note %s, %s, duration %dms", noteNames[noteNumber], octaveNames[octave], duration);
+	sprintf(buf, "note %s, %s, duration %dms\n", noteNames[noteNumber], octaveNames[octave], duration);
 	return buf;
 }
 
@@ -66,7 +66,7 @@ char* playAll() {
 	setPlayAllFlag();
 	setPlay(0);
 	TIM6_START();
-	sprintf(buf, "notes A,B,C,D,E,F,G, %s, duration %dms", octaveNames[octave], duration);
+	sprintf(buf, "notes A,B,C,D,E,F,G, %s, duration %dms\n", octaveNames[octave], duration);
 	return buf;
 }
 
