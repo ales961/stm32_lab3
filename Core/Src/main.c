@@ -114,7 +114,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   uartInit();
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-
+  HAL_TIM_Base_Start_IT(&htim6);
   menuInit(commands, 12);
   sendMessage("Started\n");
   /* USER CODE END 2 */

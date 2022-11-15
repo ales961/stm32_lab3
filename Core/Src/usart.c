@@ -156,7 +156,7 @@ uint16_t uartReceive(uint8_t * const buffer, const uint16_t size) {
 static void hardwareReceive() {
     if (bufferGetFreeSize(rxBuffer) > 0) {
         uint8_t data = 0;
-        if (uartHardwareReceivePolling(&data, 5)) {
+        if (uartHardwareReceivePolling(&data, 1)) {
             bufferPush(rxBuffer, data);
         }
     }
@@ -167,7 +167,7 @@ static void hardwareReceive() {
 static void hardwareTransmit() {
     if (bufferHasValues(txBuffer)) {
         const uint8_t byte = bufferPeek(txBuffer);
-        if (uartHardwareTransmitPolling(byte, 5))
+        if (uartHardwareTransmitPolling(byte, 1))
             bufferPop(txBuffer);
     }
 }
